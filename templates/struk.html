@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Struk Belanja</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Struk Belanja</h1>
+        <p>Tanggal: {{ now.strftime('%Y-%m-%d %H:%M:%S') }}</p> <!-- Menampilkan waktu saat ini -->
+        <table>
+            <tr>
+                <th>No</th>
+                <th>Barang</th>
+                <th>Jumlah</th>
+                <th>Total</th>
+            </tr>
+            {% for i in range(barang|length) %}
+            {% if jumlah_barang[i] > 0 %}
+            <tr>
+                <td>{{ i + 1 }}</td>
+                <td>{{ barang[i] }}</td>
+                <td>{{ jumlah_barang[i] }}</td>
+                <td>Rp {{ harga[i] * jumlah_barang[i] }}</td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+        </table>
+        <p><strong>Total: </strong>Rp {{ total_harga }}</p>
+        <form method="POST">
+            <label for="pembayaran">Jumlah Uang Pembayaran: </label>
+            <input type="number" name="pembayaran" required>
+            <button type="submit">Bayar</button>
+        </form>
+        {% if kembalian is not none %}
+            <p><strong>Kembalian: </strong>Rp {{ kembalian }}</p>
+        {% elif error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+    </div>
+</body>
+</html>
+
